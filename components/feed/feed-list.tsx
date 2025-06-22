@@ -1,18 +1,14 @@
-import { RedditPost } from "@/lib/reddit";
 import Link from "next/link";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowUp } from "lucide-react";
-import { ScrollArea } from "../ui/scroll-area";
-
-interface FeedListProps {
-    posts: RedditPost[];
-    searchTerm: string;
-    isCaseSensitive: boolean;
-}
+import { useRedditStore } from "@/stores/reddit-store";
 
 
-export default function FeedList({ posts, searchTerm, isCaseSensitive }: FeedListProps) {
+export default function FeedList() {
+    const { getFilteredPosts, searchTerm, isCaseSensitive } = useRedditStore();
+    const posts = getFilteredPosts();
+
     const formatTimeAgo = (utc: number) => {
         const date = new Date(utc * 1000);
         const now = new Date();
@@ -46,7 +42,7 @@ export default function FeedList({ posts, searchTerm, isCaseSensitive }: FeedLis
     };
 
     return (
-        <div className="h-[40rem] overflow-y-scroll pr-4 space-y-4">
+        <div className="h-[40rem] overflow-y-auto pr-4 space-y-4">
             {posts.map((post) => (
                 <Card key={post.id} className="py-4">
                     <CardContent className="flex gap-4 items-center">

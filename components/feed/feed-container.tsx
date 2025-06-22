@@ -1,37 +1,42 @@
 "use client"
 
-import { RedditPost } from "@/lib/reddit";
 import FeedList from "./feed-list";
-import { useFeedSearch } from "@/hooks/use-feed-search";
 import FeedSearch from "./feed-search";
+import FeedSelect from "./feed-select";
+import { useRedditStore } from "@/stores/reddit-store";
+import { useEffect } from "react";
 
-interface FeedContainerProps {
-    posts: RedditPost[];
-}
-
-export default function FeedContainer({ posts }: FeedContainerProps) {
+export default function FeedContainer() {
     const {
-        searchTerm,
-        setSearchTerm,
-        filteredPosts,
-        isCaseSensitive,
-        setIsCaseSensitive
-    } = useFeedSearch(posts);
+        loading,
+        error,
+        fetchPosts,
+        getFilteredPosts
+    } = useRedditStore();
+
+    const filteredPosts = getFilteredPosts();
+
+    useEffect(() => {
+        fetchPosts();
+    }, [fetchPosts]);
+
+    if (loading) {
+        return <div className="text-center py-8">Loading posts...</div>;
+    }
+
+    if (error) {
+        return <div className="text-center py-8 text-red-500">Error: {error}</div>;
+    }
 
     return (
         <div>
-            <FeedSearch
-                searchTerm={searchTerm}
-                onSearchChange={setSearchTerm}
-                isCaseSensitive={isCaseSensitive}
-                onCaseSensitiveChange={setIsCaseSensitive}
-            />
-            <h2 className="text-4xl py-5">Top Headlines ({filteredPosts.length})</h2>
-            <FeedList
-                posts={filteredPosts}
-                searchTerm={searchTerm}
-                isCaseSensitive={isCaseSensitive}
-            />
+            <div className="flex gap-2 items-center w-full">
+                <FeedSearch />
+                <FeedSelect />
+            </div>
+            <h2 className="text-4xl pt-5">Top Headlines</h2>
+            <p className="text-muted-foreground mb-4">Number of posts: {filteredPosts.length}</p>
+            <FeedList />
         </div>
     );
 }
