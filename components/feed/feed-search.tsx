@@ -14,7 +14,7 @@ export default function FeedSearch({
     const { searchTerm, setSearchTerm, isCaseSensitive, setIsCaseSensitive } = useRedditStore();
 
     return (
-        <div className="flex-1">
+        <div className="flex-1 w-full">
             <div className="relative flex items-center">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
                 <Input

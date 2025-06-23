@@ -8,7 +8,7 @@ export default function FeedSelect() {
 
     return (
         <Select value={selectedDomain} onValueChange={setSelectedDomain}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-full sm:w-[180px]">
                 <SelectValue placeholder="All domains" />
             </SelectTrigger>
             <SelectContent>
