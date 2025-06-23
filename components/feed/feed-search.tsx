@@ -4,14 +4,10 @@ import { Button } from "../ui/button";
 import clsx from "clsx";
 import { useRedditStore } from "@/stores/reddit-store";
 
-interface FeedSearchProps {
-    placeholder?: string;
-}
 
-export default function FeedSearch({
-    placeholder = "Search posts by headline..."
-}: FeedSearchProps) {
+export default function FeedSearch() {
     const { searchTerm, setSearchTerm, isCaseSensitive, setIsCaseSensitive } = useRedditStore();
+    // Could use debounce for search on larger lists
 
     return (
         <div className="flex-1 w-full">
@@ -19,7 +15,7 @@ export default function FeedSearch({
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
                 <Input
                     type="text"
-                    placeholder={placeholder}
+                    placeholder="Search posts by headline..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-10 pr-12"

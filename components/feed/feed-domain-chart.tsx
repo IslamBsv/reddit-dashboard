@@ -10,10 +10,12 @@ import {
     Tooltip,
     Legend,
 } from "chart.js";
+import { useTheme } from "next-themes";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export default function FeedDomainChart() {
+    const { theme } = useTheme();
     const posts = useRedditStore((state) => state.posts);
 
     const { labels, data } = useMemo(() => {
@@ -28,37 +30,57 @@ export default function FeedDomainChart() {
 
     if (!labels.length) return null;
 
-    return (
-        <div className="w-full h-72 my-8">
-            <Bar
-                data={{
-                    labels,
-                    datasets: [{
-                        label: "Number of Posts",
-                        data,
-                        backgroundColor: "rgba(37, 99, 235, 0.8)", // deeper blue
-                    }],
-                }}
-                options={{
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        title: { display: true, text: "Posts by Domain" },
-                    },
-                    scales: {
-                        x: {
-                            grid: { display: false },
-                        },
-                        y: {
-                            beginAtZero: true,
-                            ticks: { precision: 0 },
-                            grid: { display: false },
-                        },
-                    },
-                }}
-            />
-        </div>
+    const isDark = theme === 'dark';
 
+    const redditOrange = '#FF4500';
+    const lightText = '#222';
+    const darkText = '#eee';
+    const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            title: { display: false },
+        },
+        scales: {
+            x: {
+                grid: { display: true, color: gridColor },
+                ticks: { color: isDark ? darkText : lightText },
+            },
+            y: {
+                beginAtZero: true,
+                grid: { display: true, color: gridColor },
+                ticks: { color: isDark ? darkText : lightText, precision: 0 },
+                suggestedMax: Math.max(...data) * 1.15 
+            },
+        },
+        elements: {
+            bar: {
+                borderRadius: 6,
+            },
+        },
+    };
+
+    const chartData = {
+        labels,
+        datasets: [
+            {
+                label: 'Number of Posts',
+                data,
+                backgroundColor: redditOrange,
+                borderRadius: 6,
+            },
+        ],
+    };
+
+    return (
+        <div className="w-full h-72 my-8 rounded-xl mt-8">
+            <h2 className="text-2xl font-bold mb-4">
+                Posts by Domain
+            </h2>
+            <Bar data={chartData} options={chartOptions} />
+        </div>
     );
 }

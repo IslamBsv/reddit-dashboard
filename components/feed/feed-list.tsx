@@ -11,7 +11,6 @@ import FeedListSkeleton from "./feed-list-skeleton";
 export default function FeedList() {
     const { getFilteredPosts, searchTerm, isCaseSensitive, loading } = useRedditStore();
     const posts = getFilteredPosts();
-    // Could use debounce for search on larger lists
 
     return (
         <ScrollArea className="h-[600px] w-full">
@@ -45,7 +44,7 @@ export default function FeedList() {
                                     </div>
                                     {post.thumbnail?.startsWith("http") && (
                                         <div className="flex-shrink-0 order-first sm:order-last">
-                                            <div className="bg-muted rounded flex items-center justify-center text-2xl sm:w-20 sm:h-20 w-full aspect-[3/2]">
+                                            <div className="bg-muted rounded flex items-center justify-center text-2xl sm:w-[6rem] sm:h-[6rem] w-full aspect-[3/2]">
                                                 <img
                                                     src={post.thumbnail}
                                                     alt={post.title}
