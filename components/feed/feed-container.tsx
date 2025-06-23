@@ -35,8 +35,6 @@ export default function FeedContainer() {
 
             <FeedList />
             <FeedDomainChart />
-
-
         </div>
     );
 }

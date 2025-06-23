@@ -13,9 +13,7 @@ export interface RedditPost {
 }
 
 export async function fetchRedditPosts(): Promise<RedditPost[]> {
-    const res = await fetch("https://www.reddit.com/r/worldnews/top.json?limit=20", {
-        next: { revalidate: 60 },
-    });
+    const res = await fetch("https://www.reddit.com/r/worldnews/top.json?limit=20");
 
     const data = await res.json();
     return data.data.children.map((child: { data: RedditPost }) => {

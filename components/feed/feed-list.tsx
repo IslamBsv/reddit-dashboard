@@ -20,7 +20,7 @@ export default function FeedList() {
             ) : (
                 <div className="space-y-4 p-4 max-w-full">
                     {posts.map((post) => (
-                        <Card key={post.id} className="py-4 space-y-4 overflow-hidden">
+                        <Card key={post.id} className="py-4 space-y-4 overflow-hidden" data-testid="list-item">
                             <CardContent className="px-4">
                                 <div className="flex flex-col sm:flex-row gap-4">
                                     <div className="flex-1 min-w-0 break-words">
