@@ -18,7 +18,7 @@ export default function FeedContainer() {
 
     useEffect(() => {
         fetchPosts();
-    }, [fetchPosts]);
+    }, []);
 
     if (error) {
         return <div className="text-center py-8 text-red-500">Error: {error}</div>;

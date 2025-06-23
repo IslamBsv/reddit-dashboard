@@ -18,7 +18,7 @@ export async function fetchRedditPosts(): Promise<RedditPost[]> {
     });
 
     const data = await res.json();
-    return data.data.children.map((child: any) => {
+    return data.data.children.map((child: { data: RedditPost }) => {
         const post = child.data;
 
         return {
@@ -27,7 +27,7 @@ export async function fetchRedditPosts(): Promise<RedditPost[]> {
             domain: post.domain,
             created_utc: post.created_utc,
             ups: post.ups,
-            thumbnail: decodeRedditThumbnailUrl(post.thumbnail ),
+            thumbnail: decodeRedditThumbnailUrl(post.thumbnail),
             url: post.url,
             thumbnail_height: post.thumbnail_height,
             thumbnail_width: post.thumbnail_width,

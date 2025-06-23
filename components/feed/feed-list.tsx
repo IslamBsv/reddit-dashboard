@@ -11,6 +11,7 @@ import FeedListSkeleton from "./feed-list-skeleton";
 export default function FeedList() {
     const { getFilteredPosts, searchTerm, isCaseSensitive, loading } = useRedditStore();
     const posts = getFilteredPosts();
+    // Could use debounce for search on larger lists
 
     return (
         <ScrollArea className="h-[600px] w-full">

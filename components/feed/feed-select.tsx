@@ -3,8 +3,8 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { useRedditStore } from '@/stores/reddit-store';
 
 export default function FeedSelect() {
-    const { selectedDomain, setSelectedDomain, getUniqueDomains } = useRedditStore();
-    const domains = getUniqueDomains();
+    const { selectedDomain, setSelectedDomain } = useRedditStore();
+    const domains = useRedditStore(state => state.uniqueDomains);
 
     return (
         <Select value={selectedDomain} onValueChange={setSelectedDomain}>

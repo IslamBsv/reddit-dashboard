@@ -33,26 +33,32 @@ export default function FeedDomainChart() {
             <Bar
                 data={{
                     labels,
-                    datasets: [
-                        {
-                            label: "Number of Posts",
-                            data,
-                            backgroundColor: "#3b82f6",
-                        },
-                    ],
+                    datasets: [{
+                        label: "Number of Posts",
+                        data,
+                        backgroundColor: "rgba(37, 99, 235, 0.8)", // deeper blue
+                    }],
                 }}
                 options={{
                     responsive: true,
-                    maintainAspectRatio: false, 
+                    maintainAspectRatio: false,
                     plugins: {
                         legend: { display: false },
                         title: { display: true, text: "Posts by Domain" },
                     },
                     scales: {
-                        y: { beginAtZero: true, ticks: { precision: 0 } },
+                        x: {
+                            grid: { display: false },
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: { precision: 0 },
+                            grid: { display: false },
+                        },
                     },
                 }}
             />
         </div>
+
     );
 }

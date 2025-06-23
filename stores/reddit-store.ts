@@ -3,6 +3,7 @@ import { RedditPost, fetchRedditPosts } from '@/lib/reddit';
 
 interface RedditStore {
     posts: RedditPost[];
+    uniqueDomains: string[];
     loading: boolean;
     error: string | null;
     searchTerm: string;
@@ -14,11 +15,11 @@ interface RedditStore {
     setIsCaseSensitive: (sensitive: boolean) => void;
     setSelectedDomain: (domain: string) => void;
     getFilteredPosts: () => RedditPost[];
-    getUniqueDomains: () => string[];
 }
 
 export const useRedditStore = create<RedditStore>((set, get) => ({
     posts: [],
+    uniqueDomains: [],
     loading: false,
     error: null,
     searchTerm: '',
@@ -29,7 +30,9 @@ export const useRedditStore = create<RedditStore>((set, get) => ({
         set({ loading: true, error: null });
         try {
             const posts = await fetchRedditPosts();
-            set({ posts, loading: false });
+            
+            const uniqueDomains = [...new Set(posts.map(post => post.domain))].sort();
+            set({ posts, uniqueDomains, loading: false }); 
         } catch (error) {
             set({
                 error: error instanceof Error ? error.message : 'Failed to fetch posts',
@@ -62,10 +65,5 @@ export const useRedditStore = create<RedditStore>((set, get) => ({
         }
 
         return filtered;
-    },
-    getUniqueDomains: () => {
-        const { posts } = get();
-        const domains = posts.map(post => post.domain);
-        return [...new Set(domains)].sort();
-    },
+    }
 }));
